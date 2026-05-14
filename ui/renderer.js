@@ -4,16 +4,28 @@ const btnHash = document.getElementById('btn-hash');
 const outputText = document.getElementById('output-text');
 const outputEncoding = document.getElementById('output-encoding');
 const inputMode = document.getElementById('input-mode');
-
-// DOM Elements cho Text / File
 const textContainer = document.getElementById('input-text');
 const fileContainer = document.getElementById('input-file-container');
 const fileSelector = document.getElementById('file-selector');
 const filePathDisplay = document.getElementById('file-path-display');
 
-let currentFilePath = "";
+// DOM cho Progress Bar
+const progressContainer = document.getElementById('progress-container');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
 
-// 1. Lắng nghe sự kiện chuyển chế độ Text / File
+let currentFilePath = "";
+let currentAlgo = "sha512"; // Thuật toán mặc định
+
+// Lắng nghe chọn Sidebar Thuật Toán
+document.querySelectorAll('.algo-list li').forEach(li => {
+    li.addEventListener('click', (e) => {
+        document.querySelectorAll('.algo-list li').forEach(el => el.classList.remove('active'));
+        e.target.classList.add('active');
+        currentAlgo = e.target.getAttribute('data-algo');
+    });
+});
+
 inputMode.addEventListener('change', (e) => {
     if (e.target.value === 'file') {
         textContainer.style.display = 'none';
@@ -24,10 +36,8 @@ inputMode.addEventListener('change', (e) => {
     }
 });
 
-// 2. Lắng nghe khi người dùng chọn File
 fileSelector.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
-        // Nhờ tắt contextIsolation trong main.js, ta lấy được đường dẫn thật (path)
         currentFilePath = e.target.files[0].path; 
         filePathDisplay.innerText = "Selected: " + currentFilePath;
     } else {
@@ -36,7 +46,13 @@ fileSelector.addEventListener('change', (e) => {
     }
 });
 
-// 3. Xử lý nút Bấm Hash!
+// Lắng nghe sự kiện % tiến độ gửi từ Main Process
+ipcRenderer.on('hash-progress', (event, percentage) => {
+    const pct = percentage.toFixed(1);
+    progressBar.style.width = pct + '%';
+    progressText.innerText = pct + '%';
+});
+
 btnHash.addEventListener('click', async () => {
     const isFileMode = (inputMode.value === 'file');
     const encoding = outputEncoding.value;
@@ -52,17 +68,21 @@ btnHash.addEventListener('click', async () => {
         dataToSend = textContainer.value;
     }
 
-    // Hiển thị trạng thái đang xử lý (không làm đơ UI)
-    outputText.value = "Đang xử lý ngầm (Async)... Vui lòng đợi!";
+    // Hiển thị Progress Bar và Reset
+    progressContainer.style.display = 'block';
+    progressBar.style.width = '0%';
+    progressText.innerText = '0%';
+    outputText.value = "";
     btnHash.disabled = true;
 
     try {
-        // Gọi C++ với 3 tham số
-        const result = await ipcRenderer.invoke('hash-data', dataToSend, encoding, isFileMode);
+        // Truyền currentAlgo vào
+        const result = await ipcRenderer.invoke('hash-data', dataToSend, encoding, isFileMode, currentAlgo);
         outputText.value = result;
     } catch (err) {
         outputText.value = "Lỗi: " + err;
     } finally {
         btnHash.disabled = false;
+        setTimeout(() => { progressContainer.style.display = 'none'; }, 2000); // Ẩn bar sau 2s
     }
 });

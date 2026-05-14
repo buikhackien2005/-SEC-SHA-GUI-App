@@ -50,9 +50,19 @@
                     <p id="file-path-display" style="font-size: 13px; color: #666; word-break: break-all; text-align: center;"></p>
                 </div>
 
+                <div id="progress-container" style="display: none; padding: 15px; background: #fff; border-top: 1px solid #ddd;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; color: #555; font-weight: 600;">
+                        <span>Hashing Progress:</span>
+                        <span id="progress-text">0%</span>
+                    </div>
+                    <div style="width: 100%; background-color: #eee; border-radius: 4px; height: 10px; overflow: hidden;">
+                        <div id="progress-bar" style="width: 0%; height: 100%; background-color: #1a73e8; transition: width 0.1s;"></div>
+                    </div>
+                </div>
+
             </div>
             <div class="box">
-                <div class="box-header">Output (SHA-512)</div>
+                <div class="box-header">Output (Result)</div>
                 <textarea id="output-text" readonly placeholder="Result will appear here..."></textarea>
             </div>
         </div>

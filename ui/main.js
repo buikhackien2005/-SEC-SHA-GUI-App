@@ -20,18 +20,16 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
-// Thêm tham số isFile vào hàm lắng nghe
-ipcMain.handle('hash-data', async (event, inputData, outputEncoding, isFile) => {
+ipcMain.handle('hash-data', async (event, inputData, outputEncoding, isFile, algo) => {
     try {
-        // Truyền thêm isFile xuống C++
-        const hexResult = await addon.hash(inputData, isFile);
+        // C++ giờ nhận thêm tham số algo và một hàm callback bắt % tiến độ
+        const hexResult = await addon.hash(inputData, isFile, algo, (percentage) => {
+            // Gửi % từ main process bắn ngược ra renderer process (giao diện)
+            event.sender.send('hash-progress', percentage);
+        });
 
-        if (outputEncoding === 'hex_upper') {
-            return hexResult.toUpperCase();
-        } else if (outputEncoding === 'base64') {
-            return Buffer.from(hexResult, 'hex').toString('base64');
-        }
-        
+        if (outputEncoding === 'hex_upper') return hexResult.toUpperCase();
+        if (outputEncoding === 'base64') return Buffer.from(hexResult, 'hex').toString('base64');
         return hexResult; 
     } catch (err) {
         return "Lỗi nội bộ: " + err.message;
