@@ -1,1 +1,0 @@
-cmd_Release/sha512_addon.node := ln -f "Release/obj.target/sha512_addon.node" "Release/sha512_addon.node" 2>/dev/null || (rm -rf "Release/sha512_addon.node" && cp -af "Release/obj.target/sha512_addon.node" "Release/sha512_addon.node")

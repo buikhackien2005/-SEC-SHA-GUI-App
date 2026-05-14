@@ -11,10 +11,11 @@
   "author": "",
   "license": "ISC",
   "gypfile": true,
-  "devDependencies": {
-    "electron": "^42.0.1"
-  },
   "dependencies": {
     "node-addon-api": "^8.7.0"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.4",
+    "electron": "^28.3.3"
   }
 }

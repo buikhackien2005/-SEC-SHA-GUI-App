@@ -1,0 +1,28 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #f4f5f7; color: #333; height: 100vh; overflow: hidden; }
+
+.container { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 220px; background-color: #fff; border-right: 1px solid #ddd; padding: 20px 0; }
+.sidebar h3 { padding: 0 20px; font-size: 14px; color: #777; text-transform: uppercase; margin-bottom: 15px; }
+.algo-list { list-style: none; }
+.algo-list li { padding: 10px 20px; font-size: 15px; cursor: pointer; }
+.algo-list li.active { background-color: #ebf0fe; color: #1a73e8; border-right: 3px solid #1a73e8; font-weight: bold; }
+.algo-list li.disabled { color: #aaa; cursor: not-allowed; }
+
+/* Settings */
+.settings { width: 280px; background-color: #fafafa; border-right: 1px solid #ddd; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+.btn-primary { background-color: #1a1b26; color: white; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+.btn-primary:hover { background-color: #333; }
+.setting-group { display: flex; flex-direction: column; gap: 8px; }
+.setting-group label { font-size: 13px; font-weight: 600; color: #555; }
+.setting-group select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; background: #fff; }
+.setting-group select:disabled { background: #eee; }
+
+/* Main Content */
+.main-content { flex: 1; display: flex; flex-direction: column; padding: 20px; gap: 20px; background-color: #fff; }
+.box { flex: 1; display: flex; flex-direction: column; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.box-header { background-color: #f9f9f9; padding: 10px 15px; font-size: 14px; font-weight: 600; border-bottom: 1px solid #ddd; color: #555; }
+textarea { flex: 1; border: none; padding: 15px; font-size: 14px; resize: none; outline: none; font-family: monospace; }
+textarea[readonly] { background-color: #fcfcfc; color: #1a73e8; font-weight: bold; }

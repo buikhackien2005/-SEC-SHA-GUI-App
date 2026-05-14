@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHA-512 GUI App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Hash Tools</h3>
+            <ul class="algo-list">
+                <li class="disabled">MD5</li>
+                <li class="disabled">SHA-1</li>
+                <li class="disabled">SHA-256</li>
+                <li class="active">SHA-512</li>
+                <li class="disabled">Keccak</li>
+            </ul>
+        </div>
+
+        <div class="settings">
+            <button id="btn-hash" class="btn-primary">Hash!</button>
+            
+            <div class="setting-group">
+                <label>Input Mode</label>
+                <select disabled>
+                    <option>Text (UTF-8)</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Output Encoding</label>
+                <select id="output-encoding">
+                    <option value="hex_lower">Hex (Lower Case)</option>
+                    <option value="hex_upper">Hex (Upper Case)</option>
+                    <option value="base64">Base64</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="box">
+                <div class="box-header">Input</div>
+                <textarea id="input-text" placeholder="Enter your text here..."></textarea>
+            </div>
+            <div class="box">
+                <div class="box-header">Output (SHA-512)</div>
+                <textarea id="output-text" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
